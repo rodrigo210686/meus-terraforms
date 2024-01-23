@@ -1,6 +1,11 @@
+data "aws_vpc" "default" {
+ default = true
+}
+
 resource "aws_security_group" "app_builder_sg" {
   name        = "sg-app-builder"
   description = "App Builder Security Group"
+  vpc_id      = data.aws_vpc.default.id
 
   ingress {
     from_port = 3000
@@ -15,6 +20,12 @@ resource "aws_security_group" "app_builder_sg" {
     protocol  = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  egress {
+   from_port   = 0
+   to_port     = 0
+   protocol    = "-1"
+   cidr_blocks = ["0.0.0.0/0"]
+ }
   # Add more ingress rules as needed
 }
 
@@ -77,6 +88,8 @@ resource "aws_iam_role" "ssm_role" {
 resource "aws_instance" "builder-app" {
     ami = "ami-0c0b74d29acd0cd97"
     instance_type = "t2.micro"
+    iam_instance_profile = aws_iam_role.ssm_role.ec2-ssm-role
+    vpc_security_group_ids = [aws_security_group.app_builder_sg.id]
 
   user_data = <<-EOF
               #!/bin/bash
@@ -95,8 +108,7 @@ resource "aws_instance" "builder-app" {
               npm start
 
               EOF
-  iam_instance_profile = aws_iam_role.ssm_role.ec2-ssm-role
-  vpc_security_group_ids = [aws_security_group.app_builder_sg.sg-app-builder.id]
+
   
   tags = {
      Name = "builder-app"
