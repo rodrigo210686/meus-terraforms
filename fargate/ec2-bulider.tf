@@ -88,7 +88,7 @@ resource "aws_iam_role" "ssm_role" {
 resource "aws_instance" "builder-app" {
     ami = "ami-0c0b74d29acd0cd97"
     instance_type = "t2.micro"
-    iam_instance_profile = aws_iam_role.ssm_role.ec2-ssm-role
+    iam_instance_profile = aws_iam_role.ssm_role.name
     vpc_security_group_ids = [aws_security_group.app_builder_sg.id]
 
   user_data = <<-EOF
