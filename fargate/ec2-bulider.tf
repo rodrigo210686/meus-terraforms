@@ -30,7 +30,7 @@ resource "aws_security_group" "app_builder_sg" {
 }
 
 resource "aws_iam_role" "ssm_role" {
-  name = "ec2-ssm-role"
+  name = "acessossm"
 
   assume_role_policy = <<-EOF
 {
