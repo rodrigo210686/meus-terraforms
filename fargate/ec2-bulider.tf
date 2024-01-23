@@ -29,34 +29,34 @@ resource "aws_security_group" "app_builder_sg" {
   # Add more ingress rules as needed
 }
 
-resource "aws_iam_role" "ssm_role" {
-  name = "acessossm"
+#resource "aws_iam_role" "ssm_role" {
+#  name = "acessossm"
 
-  assume_role_policy = <<-EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "sts:AssumeRole"
-            ],
-            "Principal": {
-                "Service": [
-                    "ec2.amazonaws.com"
-                ]
-            }
-        }
-    ]
-}
-  EOF
-}
+#  assume_role_policy = <<-EOF
+#{
+#    "Version": "2012-10-17",
+#    "Statement": [
+#        {
+#            "Effect": "Allow",
+#            "Action": [
+#                "sts:AssumeRole"
+#           ],
+#            "Principal": {
+#                "Service": [
+#                    "ec2.amazonaws.com"
+#                ]
+#            }
+#        }
+#    ]
+#}
+#  EOF
+#}
 
 
 resource "aws_instance" "builder-app" {
     ami = "ami-0c0b74d29acd0cd97"
     instance_type = "t2.micro"
-    iam_instance_profile = aws_iam_role.ssm_role.name
+    #iam_instance_profile = aws_iam_role.ssm_role.name
     vpc_security_group_ids = [aws_security_group.app_builder_sg.id]
 
   user_data = <<-EOF
