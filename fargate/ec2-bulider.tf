@@ -69,7 +69,7 @@ resource "aws_instance" "builder-app" {
               yum update
               yum search docker
               yum info docker
-              yum install docker  
+              yum install docker  -y
               ### Buil app
               npx create-react-app globomantics
               cd globomantics/
