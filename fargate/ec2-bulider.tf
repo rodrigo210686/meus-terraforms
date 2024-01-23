@@ -96,7 +96,7 @@ resource "aws_instance" "builder-app" {
 
               EOF
   iam_instance_profile = aws_iam_role.ssm_role.ec2-ssm-role
-  vpc_security_group_ids = [aws_security_group.app_builder_sg.id]
+  vpc_security_group_ids = [aws_security_group.app_builder_sg.sg-app-builder.id]
   
   tags = {
      Name = "builder-app"
