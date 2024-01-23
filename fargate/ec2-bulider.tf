@@ -3,7 +3,7 @@ data "aws_vpc" "default" {
 }
 
 resource "aws_security_group" "app_builder_sg" {
-  name        = "sg-app-builder"
+  name        = "app-builder-sg"
   description = "App Builder Security Group"
   vpc_id      = data.aws_vpc.default.id
 
