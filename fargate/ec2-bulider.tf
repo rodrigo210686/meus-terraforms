@@ -29,8 +29,7 @@ resource "aws_security_group" "app_builder_sg" {
   # Add more ingress rules as needed
 }
 
-resource "aws_iam_role" "ssm_role" {
-  name = "acessossm"
+
 
 
 resource "aws_instance" "builder-app" {
