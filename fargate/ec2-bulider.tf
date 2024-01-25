@@ -32,26 +32,6 @@ resource "aws_security_group" "app_builder_sg" {
 resource "aws_iam_role" "ssm_role" {
   name = "acessossm"
 
-  assume_role_policy = <<-EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "sts:AssumeRole"
-           ],
-            "Principal": {
-                "Service": [
-                    "ec2.amazonaws.com"
-                ]
-            }
-        }
-    ]
-}
-  EOF
-}
-
 
 resource "aws_instance" "builder-app" {
     ami = "ami-008677ef1baf82eaf"
@@ -75,8 +55,6 @@ resource "aws_instance" "builder-app" {
               npm start
 
               EOF
-    iam_instance_profile = aws_iam_role.ssm_role.name
-
   
   tags = {
      Name = "builder-app"
