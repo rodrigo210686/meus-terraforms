@@ -54,7 +54,7 @@ resource "aws_iam_role" "ssm_role" {
 
 
 resource "aws_instance" "builder-app" {
-    ami = "ami-0c0b74d29acd0cd97"
+    ami = "ami-008677ef1baf82eaf"
     instance_type = "t2.micro"
     vpc_security_group_ids = [aws_security_group.app_builder_sg.id]
 
