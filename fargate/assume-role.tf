@@ -1,3 +1,4 @@
+##create ssm role
 resource "aws_iam_role" "ssm_role" {
   name = "acessossm"
 
@@ -19,4 +20,9 @@ resource "aws_iam_role" "ssm_role" {
     ]
 }
   EOF
+}
+##Attach policie
+resource "aws_iam_role_policy_attachment" "AmazonSSMManagedInstanceCore" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore" 
+  role       = aws_iam_role.ssm_role.name
 }
