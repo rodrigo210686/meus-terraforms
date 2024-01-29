@@ -39,6 +39,8 @@ resource "aws_instance" "builder-app" {
 
   user_data = <<-EOF
               #!/bin/bash
+              sudo -i
+              cd /root
               ###Instalar node e npm
               curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
               . ~/.nvm/nvm.sh
