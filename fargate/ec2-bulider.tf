@@ -49,8 +49,9 @@ resource "aws_instance" "builder-app" {
               yum info docker
               yum install docker  -y
               ### Buil app
-              npx create-react-app globomantics
-              cd globomantics/
+              aws s3 cp s3://app-globo-mantics/globomantics.tar /root/
+			           tar -xvf globomantics.tar
+              cd /root/globomantics/
               npm start
 
               EOF
