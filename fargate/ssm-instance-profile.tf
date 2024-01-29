@@ -29,5 +29,5 @@ resource "aws_iam_role_policy_attachment" "AmazonSSMManagedInstanceCore22" {
 
 resource "aws_iam_role_policy_attachment" "s3permission" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess" 
-  role       = aws_iam_role.ssm_role.name
+  role       = aws_iam_role.ssm_role2.name
 }
