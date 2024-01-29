@@ -1,6 +1,6 @@
 ### Create iam role intance profile
 resource "aws_iam_role" "ssm_role2" {
-  name = "acessossm2"
+  name = "ssm-instance"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
