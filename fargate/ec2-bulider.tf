@@ -54,7 +54,7 @@ resource "aws_instance" "builder-app" {
               npm start
 
               EOF
-  
+  iam_instance_profile = aws_iam_role.ssm_role.name
   tags = {
      Name = "builder-app"
      type = "ec2"
