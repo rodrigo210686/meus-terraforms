@@ -50,7 +50,7 @@ resource "aws_instance" "builder-app" {
               yum install docker  -y
               ### Buil app
               aws s3 cp s3://app-globo-mantics/globomantics.tar /root/
-			           tar -xvf globomantics.tar
+              tar -xvf globomantics.tar
               cd /root/globomantics/
               npm start
 
