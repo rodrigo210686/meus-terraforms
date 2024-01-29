@@ -1,3 +1,4 @@
+############# Role comum não serve para atachar em instancias. Mantida para consulta ou outros propositos
 ##create ssm role
 resource "aws_iam_role" "ssm_role" {
   name = "acessossm"
