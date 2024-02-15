@@ -1,0 +1,163 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "The template used to create an ECS Service from the ECS Console.",
+  "Parameters": {
+    "ECSClusterName": {
+      "Type": "String",
+      "Default": "globo"
+    },
+    "ECSServiceName": {
+      "Type": "String",
+      "Default": "globo-service"
+    },
+    "SecurityGroupIDs": {
+      "Type": "CommaDelimitedList",
+      "Default": "sg-0084038b3b5956922"
+    },
+    "SubnetIDs": {
+      "Type": "CommaDelimitedList",
+      "Default": "subnet-02320dccc9f2dd398,subnet-0178e2b1508598265,subnet-09cbf89456234a1f9,subnet-0d793a46b51aca239,subnet-0c822379778bc7d39,subnet-0a8d7fd564f4c63e6"
+    },
+    "VpcID": {
+      "Type": "String",
+      "Default": "vpc-0240f77029ace1a4e"
+    },
+    "LoadBalancerName": {
+      "Type": "String",
+      "Default": "alb-globo"
+    }
+  },
+  "Resources": {
+    "ECSService": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "Cluster": "globo",
+        "TaskDefinition": "arn:aws:ecs:us-east-1:328348852061:task-definition/globomantics-task:1",
+        "LaunchType": "FARGATE",
+        "ServiceName": "globo-service",
+        "SchedulingStrategy": "REPLICA",
+        "DesiredCount": 1,
+        "LoadBalancers": [
+          {
+            "ContainerName": "globomantics",
+            "ContainerPort": 3000,
+            "LoadBalancerName": {
+              "Ref": "AWS::NoValue"
+            },
+            "TargetGroupArn": {
+              "Ref": "TargetGroup"
+            }
+          }
+        ],
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "ENABLED",
+            "SecurityGroups": {
+              "Ref": "SecurityGroupIDs"
+            },
+            "Subnets": {
+              "Ref": "SubnetIDs"
+            }
+          }
+        },
+        "PlatformVersion": "LATEST",
+        "DeploymentConfiguration": {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 100,
+          "DeploymentCircuitBreaker": {
+            "Enable": true,
+            "Rollback": true
+          }
+        },
+        "DeploymentController": {
+          "Type": "ECS"
+        },
+        "ServiceConnectConfiguration": {
+          "Enabled": false
+        },
+        "Tags": [],
+        "EnableECSManagedTags": true
+      },
+      "DependsOn": [
+        "Listener"
+      ]
+    },
+    "LoadBalancer": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "Type": "application",
+        "Name": "alb-globo",
+        "SecurityGroups": {
+          "Ref": "SecurityGroupIDs"
+        },
+        "Subnets": {
+          "Ref": "SubnetIDs"
+        }
+      }
+    },
+    "TargetGroup": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckPath": "/",
+        "Name": "3000",
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetType": "ip",
+        "HealthCheckProtocol": "HTTP",
+        "VpcId": {
+          "Ref": "VpcID"
+        }
+      }
+    },
+    "Listener": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "Type": "forward",
+            "TargetGroupArn": {
+              "Ref": "TargetGroup"
+            }
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "LoadBalancer"
+        },
+        "Port": "3000",
+        "Protocol": "HTTP"
+      }
+    }
+  },
+  "Outputs": {
+    "ClusterName": {
+      "Description": "The cluster used to create the service.",
+      "Value": {
+        "Ref": "ECSClusterName"
+      }
+    },
+    "ECSService": {
+      "Description": "The created service.",
+      "Value": {
+        "Ref": "ECSService"
+      }
+    },
+    "LoadBalancer": {
+      "Description": "The created load balancer.",
+      "Value": {
+        "Ref": "LoadBalancer"
+      }
+    },
+    "Listener": {
+      "Description": "The created listener.",
+      "Value": {
+        "Ref": "Listener"
+      }
+    },
+    "TargetGroup": {
+      "Description": "The created target group.",
+      "Value": {
+        "Ref": "TargetGroup"
+      }
+    }
+  }
+}
