@@ -62,7 +62,7 @@ resource "google_container_node_pool" "spot_pool" {
   name       = "spot-pool-e2st4"
   cluster    = google_container_cluster.cluster_1.name
   location   = google_container_cluster.cluster_1.location
-  node_count = 0
+  node_count = 2
 
   node_config {
     machine_type = "e2-medium"
