@@ -56,7 +56,7 @@ resource "google_container_cluster" "cluster_1" {
   }
 
     cluster_autoscaling {
-    enabled = true
+    enabled = false
   }
 
 
