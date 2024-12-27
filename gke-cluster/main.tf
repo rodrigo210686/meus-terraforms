@@ -56,7 +56,7 @@ resource "google_container_cluster" "cluster_1" {
   }
 
     cluster_autoscaling {
-    enabled = false
+    enabled = true
   }
 
 
@@ -68,6 +68,7 @@ resource "google_container_node_pool" "spot_pool" {
   cluster    = google_container_cluster.cluster_1.name
   location   = google_container_cluster.cluster_1.location
   node_count = 0
+  initial_node_count = 0 
 
   node_config {
     machine_type = "e2-medium"
@@ -108,7 +109,13 @@ resource "google_container_node_pool" "spot_pool" {
   max_pods_per_node = 110
 
   upgrade_settings {
-    max_surge       = 0
-    max_unavailable = 0
+    max_surge       = 2
+    max_unavailable = 1
   }
+  
+  autoscaling {
+    min_node_count = 1
+    max_node_count = 1
+  }
+
 }
