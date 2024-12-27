@@ -55,6 +55,11 @@ resource "google_container_cluster" "cluster_1" {
     evaluation_mode = "DISABLED"
   }
 
+    cluster_autoscaling {
+    enabled = false
+  }
+
+
   master_authorized_networks_config {}
 }
 
@@ -94,10 +99,6 @@ resource "google_container_node_pool" "spot_pool" {
     spot = true
   }
 
-  autoscaling {
-    min_node_count = 0
-    max_node_count = 0
-  }
 
   management {
     auto_repair  = true
@@ -107,7 +108,7 @@ resource "google_container_node_pool" "spot_pool" {
   max_pods_per_node = 110
 
   upgrade_settings {
-    max_surge       = 1
+    max_surge       = 0
     max_unavailable = 0
   }
 }
