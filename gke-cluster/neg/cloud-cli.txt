@@ -1,0 +1,9 @@
+gcloud compute network-endpoint-groups create external-web-site --project=playground-s-11-ff0c5591 --global --network-endpoint-type=INTERNET_IP_PORT --default-port=443
+
+gcloud compute network-endpoint-groups update external-web-site --project=playground-s-11-ff0c5591 --global --add-endpoint=ip=54.82.149.163,port=443
+
+
+## Reserva de ip
+gcloud compute addresses create load-balancer-neg --project=playground-s-11-ff0c5591 --global
+
+## 
