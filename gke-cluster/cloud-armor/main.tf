@@ -7,9 +7,6 @@ terraform {
   }
 }
 
-provider "google" {
-  # Configuration options
-}
 
 resource "google_compute_security_policy" "policy" {
   name = "infrastructure-as-code-security-policy"
@@ -31,7 +28,7 @@ resource "google_compute_security_policy" "policy" {
   rule {
     action   = "deny(403)"
     priority = "1000"
-    preview = true
+    preview = false
     match {
       versioned_expr = "SRC_IPS_V1"
       config {
@@ -44,7 +41,7 @@ resource "google_compute_security_policy" "policy" {
    rule {
     action   = "allow"
     priority = "5000"
-    preview = true
+    preview = false
     match {
       versioned_expr = "SRC_IPS_V1"
       config {
@@ -57,7 +54,7 @@ resource "google_compute_security_policy" "policy" {
    rule {
     action   = "deny(403)"
     priority = "7000"
-    preview = true
+    preview = false
     match {
       expr {
         expression = "origin.region_code == 'CN' || origin.region_code == 'RU'"
@@ -69,7 +66,7 @@ resource "google_compute_security_policy" "policy" {
   rule {
     action   = "deny(403)"
     priority = "10000"
-    preview = true
+    preview = false
     match {
       expr {
         expression = "evaluatePreconfiguredWaf('php-v33-stable', {'sensitivity': 1})"
@@ -81,7 +78,7 @@ resource "google_compute_security_policy" "policy" {
   rule {
     action   = "deny(403)"
     priority = "11000"
-    preview = true
+    preview = false
     match {
       expr {
         expression = "evaluatePreconfiguredWaf('sqli-v33-stable', {'sensitivity': 1})"
@@ -93,7 +90,7 @@ resource "google_compute_security_policy" "policy" {
   rule {
     action   = "deny(403)"
     priority = "12000"
-    preview = true
+    preview = false
     match {
       expr {
         expression = "evaluatePreconfiguredWaf('xss-v33-stable', {'sensitivity': 1})"
@@ -105,7 +102,7 @@ resource "google_compute_security_policy" "policy" {
   rule {
     action   = "deny(403)"
     priority = "13000"
-    preview = true
+    preview = false
     match {
       expr {
         expression = "evaluatePreconfiguredWaf('lfi-v33-stable', {'sensitivity': 1})"
@@ -117,7 +114,7 @@ resource "google_compute_security_policy" "policy" {
   rule {
     action   = "deny(403)"
      priority = "14000"
-     preview = true
+     preview = false
      match {
        expr {
          expression = "evaluatePreconfiguredWaf('rfi-v33-stable', {'sensitivity': 1})"
@@ -129,7 +126,7 @@ resource "google_compute_security_policy" "policy" {
   rule {
     action   = "deny(403)"
     priority = "15000"
-    preview = true
+    preview = false
     match {
       expr {
         expression = "evaluatePreconfiguredWaf('rce-v33-stable', {'sensitivity': 1})"
@@ -141,7 +138,7 @@ resource "google_compute_security_policy" "policy" {
   rule {
     action   = "deny(403)"
     priority = "16000"
-    preview = true
+    preview = false
     match {
       expr {
         expression = "evaluatePreconfiguredWaf('methodenforcement-v33-stable', {'sensitivity': 1})"
@@ -153,7 +150,7 @@ resource "google_compute_security_policy" "policy" {
   rule {
     action   = "deny(403)"
     priority = "17000"
-    preview = true
+    preview = false
     match {
       expr {
         expression = "evaluatePreconfiguredWaf('scannerdetection-v33-stable', {'sensitivity': 1})"
@@ -165,7 +162,7 @@ resource "google_compute_security_policy" "policy" {
   rule {
       action   = "deny(403)"
       priority = "18000"
-      preview = true
+      preview = false
       match {
         expr {
           expression = "evaluatePreconfiguredWaf('protocolattack-v33-stable', {'sensitivity': 1})"
@@ -177,7 +174,7 @@ resource "google_compute_security_policy" "policy" {
     rule {
       action   = "deny(403)"
       priority = "19000"
-      preview = true
+      preview = false
       match {
         expr {
           expression = "evaluatePreconfiguredWaf('sessionfixation-v33-stable', {'sensitivity': 1})"
@@ -188,7 +185,7 @@ resource "google_compute_security_policy" "policy" {
     rule {
        action   = "deny(403)"
        priority = "20000"
-       preview = true
+       preview = false
        match {
          expr {
            expression = "evaluatePreconfiguredWaf('nodejs-v33-stable', {'sensitivity': 1})"
@@ -200,7 +197,7 @@ resource "google_compute_security_policy" "policy" {
     rule {
        action   = "deny(403)"
        priority = "21000"
-       preview = true
+       preview = false
        match {
          expr {
            expression = "evaluatePreconfiguredWaf('java-v33-stable', {'sensitivity': 3})"
@@ -212,7 +209,7 @@ resource "google_compute_security_policy" "policy" {
      rule {
        action   = "deny(403)"
        priority = "22000"
-       preview = true
+       preview = false
        match {
          expr {
            expression = "evaluatePreconfiguredWaf('cve-canary', {'sensitivity': 3})"
@@ -224,7 +221,7 @@ resource "google_compute_security_policy" "policy" {
     rule {
       action   = "throttle"
       priority = "30000"
-      preview = true
+      preview = false
       rate_limit_options {
             enforce_on_key = "ALL"
             conform_action = "allow"

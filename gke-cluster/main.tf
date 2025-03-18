@@ -4,7 +4,10 @@ resource "google_project_service" "enable_gke" {
 }
 
 resource "google_container_cluster" "cluster_1" {
-  depends_on = [google_project_service.enable_gke]
+  depends_on = [google_project_service.enable_gke,
+                google_compute_network.gke_test,
+                google_compute_subnetwork.public_subnet
+  ]
 
   name               = "cluster-1"
   location           = var.region

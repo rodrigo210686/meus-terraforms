@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: 
+    app: giropops-senhas-2
+  name: giropops-senhas-2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: giropops-senhas-2
+  template:
+    metadata:
+      labels:
+        app: giropops-senhas-2
+    spec:
+      containers:
+      - name: giropops-senhas-2
+        image: linuxtips/giropops-senhas:1.0
+        env:
+        - name: REDIS_HOST
+          value: redis-service-2
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  giropops-senhas-svc-2
+  labels:
+    app: giropops-senhas-2
+spec:
+  selector:
+    app:  giropops-senhas-2
+  type:  ClusterIP
+  ports:
+  - name:  tcp-giropops-senhas
+    port:  5000
+    targetPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: redis-2
+  name: redis-deployment-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-2
+  template:
+    metadata:
+      labels:
+        app: redis-2
+    spec:
+      containers:
+      - image: redis
+        name: redis-2
+        ports:
+          - containerPort: 6379
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  redis-service-2
+  labels:
+    app: redis-2
+spec:
+  selector:
+    app:  redis-2
+  type:  ClusterIP
+  ports:
+  - protocol: TCP
+    port:  6379
+    targetPort: 6379
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: giropops-senhas-2
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    #cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: app7.cosmosit.com.br
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: giropops-senhas-svc-2
+            port:
+              number: 5000            
+
