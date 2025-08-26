@@ -2,11 +2,12 @@
 # shellcheck disable=SC2164
 cd /home/ubuntu
 yes | sudo apt update
-yes | sudo apt install python3 python3-pip
+yes | sudo apt install python3 python3-pip python3.12-venv
 git clone https://github.com/rahulwagh/python-mysql-db-proj-1.git
 sleep 20
 # shellcheck disable=SC2164
-cd python-mysql-db-proj-1
+cd /home/ubuntu/python-mysql-db-proj-1
+sudo chown -R ubuntu:ubuntu *
 python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
