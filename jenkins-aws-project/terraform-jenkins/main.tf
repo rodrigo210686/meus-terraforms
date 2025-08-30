@@ -7,7 +7,7 @@ module "networking" {
   cidr_private_subnet  = var.cidr_private_subnet
 }
 
-/*module "security_group" {
+module "security_group" {
   source              = "./security-groups"
   ec2_sg_name         = "SG for EC2 to enable SSH(22), HTTPS(443) and HTTP(80)"
   vpc_id              = module.networking.dev_proj_1_vpc_id
@@ -26,6 +26,7 @@ module "jenkins" {
   user_data_install_jenkins = templatefile("./jenkins-runner-script/jenkins-installer.sh", {})
 }
 
+/*
 module "lb_target_group" {
   source                   = "./load-balancer-target-group"
   lb_target_group_name     = "jenkins-lb-target-group"
